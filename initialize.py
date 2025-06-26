@@ -121,7 +121,7 @@ def initialize_agent_executor():
     st.session_state.company_doc_chain = utils.create_rag_chain(ct.DB_COMPANY_PATH)
     st.session_state.rag_chain = utils.create_rag_chain(ct.DB_ALL_PATH)
     DB_COMPANYALL_PATH = ct.DB_SERVICE_PATH+  ct.DB_COMPANY_PATH
-    st.session_state.company_data_chain = utils.create_rag_chain(ct.DB_COMPANYALL_PATH)
+    st.session_state.company_data_chain = utils.create_rag_chain(DB_COMPANYALL_PATH)
 
     # Web検索用のToolを設定するためのオブジェクトを用意
     search = SerpAPIWrapper()
