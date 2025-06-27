@@ -14,7 +14,7 @@ import streamlit as st
 import tiktoken
 from langchain_openai import ChatOpenAI
 from langchain_community.callbacks.streamlit import StreamlitCallbackHandler
-from langchain import SerpAPIWrapper
+from langchain_community.utilities import SerpAPIWrapper
 from langchain.tools import Tool
 from langchain.agents import AgentType, initialize_agent, load_tools
 import utils
@@ -120,8 +120,9 @@ def initialize_agent_executor():
     st.session_state.service_doc_chain = utils.create_rag_chain(ct.DB_SERVICE_PATH)
     st.session_state.company_doc_chain = utils.create_rag_chain(ct.DB_COMPANY_PATH)
     st.session_state.rag_chain = utils.create_rag_chain(ct.DB_ALL_PATH)
+    
     # 追加tool「wikipedia」からの情報収集
-    wikipedia_tool = load_tools(["wikipedia"])
+    wikipedia_tools = load_tools(["wikipedia"])
     
 
 
@@ -152,10 +153,11 @@ def initialize_agent_executor():
             name = ct.SEARCH_WEB_INFO_TOOL_NAME,
             func=search.run,
             description=ct.SEARCH_WEB_INFO_TOOL_DESCRIPTION
-        ),
-        # wikipediaからの情報収集用のTool
-        wikipedia_tool
+        )
     ]
+    
+    # wikipediaからの情報収集用のToolを追加
+    tools.extend(wikipedia_tools)
 
     # Agent Executorの作成
     st.session_state.agent_executor = initialize_agent(
