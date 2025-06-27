@@ -121,7 +121,7 @@ def initialize_agent_executor():
     st.session_state.company_doc_chain = utils.create_rag_chain(ct.DB_COMPANY_PATH)
     st.session_state.rag_chain = utils.create_rag_chain(ct.DB_ALL_PATH)
     # 追加tool「wikipedia」からの情報収集
-    wikipedhia_tool = load_tools(["wikipedia"])
+    wikipedia_tool = load_tools(["wikipedia"])
     
 
 
